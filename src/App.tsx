@@ -2,9 +2,10 @@
 import { Button, Row } from "antd";
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
+import { JokeFromServer } from "./interfaces";
 
 export const App: React.FC = () => {
-  const [joke, setJoke] = useState<any>();
+  const [joke, setJoke] = useState<JokeFromServer>();
   const [stop, setStop] = useState(false);
 
   const fetchLinksApi = async () => {
@@ -30,7 +31,7 @@ export const App: React.FC = () => {
       if (value) {
         setTimeout(() => {
           fetchLinks();
-        }, 1000);
+        }, 3000);
       }
     } catch (e) {
       return e;
