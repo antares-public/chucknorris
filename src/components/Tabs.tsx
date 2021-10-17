@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useHistory, useLocation } from "react-router-dom";
-import { CheckCircleOutlined, LoginOutlined } from "@ant-design/icons";
+import { HeartOutlined, SmileOutlined } from "@ant-design/icons";
 import { Favorites } from "../pages/favorites";
 import { Container, Home } from "../pages/home";
 import { Tabs } from "antd";
@@ -14,27 +14,27 @@ export const Jokes = () => {
     localStorage.getItem("favorites") || "[]"
   );
   const dispatch = useDispatch();
-  let location = useLocation();
-  let history = useHistory();
+  const location = useLocation();
+  const history = useHistory();
   const { TabPane } = Tabs;
 
   useEffect(() => {
-    dispatch(fetchToFavorites(savedJokes))
-  }, [dispatch, savedJokes])
+    dispatch(fetchToFavorites(savedJokes));
+  }, [dispatch, savedJokes]);
 
   return (
     <Container>
       <Wrapper
         activeKey={location.pathname}
-        onChange={(key: any) => {
+        onChange={(key) => {
           history.push(`${key}`);
         }}
       >
         <TabPane
           tab={
             <span>
-              <LoginOutlined />
-              List Joke
+              <SmileOutlined />
+              Joke
             </span>
           }
           key="/home"
@@ -44,7 +44,7 @@ export const Jokes = () => {
         <TabPane
           tab={
             <span>
-              <CheckCircleOutlined />
+              <HeartOutlined />
               Favorites
             </span>
           }

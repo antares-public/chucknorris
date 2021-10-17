@@ -4,29 +4,22 @@ import styled from "styled-components";
 import React, { useCallback, useEffect, useState } from "react";
 import { JokeFromServer } from "../interfaces";
 import { apiFetchJoke } from "../api/joke";
-import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { selectFavorites } from "../redux/jokes/selectors";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  addToFavorites,
-  removeFromFavorites,
-} from "../redux/jokes/actions";
+import { useSelector } from "react-redux";
+import { Chunk } from "../components/Chunk";
 
 export const Home: React.FC = () => {
-  const dispatch = useDispatch();
   const favorites = useSelector(selectFavorites);
-  const [joke, setJoke] = useState<JokeFromServer>();
+  const [joke, setJoke] = useState<JokeFromServer | "">("");
   const [stop, setStop] = useState(false);
-
-  const checkJoke = favorites.find((f) => f.id === joke?.id);
-
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
 
   const handleLinks = async () => {
     const res = await apiFetchJoke();
     setJoke(res);
+  };
+
+  const handleClear = async () => {
+    setJoke("");
   };
 
   const handleTime = useCallback(
@@ -40,26 +33,13 @@ export const Home: React.FC = () => {
     [joke]
   );
 
-  const handleLike = async () => {
-    if (favorites.length > 10) {
-      favorites.shift();
-    }
-    if (joke) {
-      dispatch(addToFavorites(joke));
-    }
-  };
-
-  const handleDislike = async () => {
-    if (joke) dispatch(removeFromFavorites(joke.id));
-  };
+  useEffect(() => {
+    handleTime(stop);
+  }, [stop, handleTime]);
 
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
-
-  useEffect(() => {
-    handleTime(stop);
-  }, [stop, handleTime]);
 
   return (
     <CustomRow justify="center">
@@ -75,23 +55,11 @@ export const Home: React.FC = () => {
           >
             Joke 3s
           </CustomButton>
+          <CustomButton type="primary" size="large" onClick={handleClear}>
+            Clear
+          </CustomButton>
         </div>
-        {joke && (
-          <Joke>
-            <h3 style={{ width: 500 }}>{joke.value}</h3>
-            {!checkJoke ? (
-              <HeartOutlined
-                onClick={handleLike}
-                style={{ fontSize: "30px", color: "#08c" }}
-              />
-            ) : (
-              <HeartFilled
-                onClick={handleDislike}
-                style={{ fontSize: "30px", color: "#08c" }}
-              />
-            )}
-          </Joke>
-        )}
+        {joke ? <Chunk joke={joke} /> : <Joke />}
       </Container>
     </CustomRow>
   );
