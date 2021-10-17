@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useHistory, useLocation } from "react-router-dom";
 import { CheckCircleOutlined, LoginOutlined } from "@ant-design/icons";
-import { Favorites } from "./Favorites";
-import { Container, Home } from "./Home";
+import { Favorites } from "../pages/favorites";
+import { Container, Home } from "../pages/home";
 import { Tabs } from "antd";
+import { JokeFromServer } from "../interfaces";
 
-export const Joke = () => {
+export const Jokes = () => {
+  const savedJokes: Array<JokeFromServer> | [] = JSON.parse(
+    localStorage.getItem("favorites") || "[]"
+  );
+  const [favorites, setFavorites] = useState(savedJokes);
   let location = useLocation();
   let history = useHistory();
   const { TabPane } = Tabs;
@@ -28,7 +33,7 @@ export const Joke = () => {
           }
           key="/home"
         >
-          <Home />
+          <Home favorites={favorites} setFavorites={setFavorites} />
         </TabPane>
         <TabPane
           tab={
@@ -39,7 +44,7 @@ export const Joke = () => {
           }
           key="/favorites"
         >
-          <Favorites />
+          <Favorites favorites={favorites} setFavorites={setFavorites} />
         </TabPane>
       </Wrapper>
     </Container>

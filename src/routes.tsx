@@ -1,11 +1,11 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import { Joke } from "./components/Joke";
+import { Jokes } from "./components/Tabs";
 
-export const useRoutes: React.FC = () => (
+export const useRoutes = () => (
   <Switch>
     <Route path="/(home|favorites)" exact>
-        <Joke />
+        <Jokes />
       </Route>
     <Route path="*">
       <Redirect to="/home" />

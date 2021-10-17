@@ -1,14 +1,15 @@
 import { Button } from "antd";
 import styled from "styled-components";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { Container, CustomRow } from "./home";
 import { JokeFromServer } from "../interfaces";
-import { Container, CustomRow } from "./Home";
 
-export const Favorites: React.FC = () => {
-  const savedJoke: Array<JokeFromServer> | [] = JSON.parse(
-    localStorage.getItem("favorites") || "[]"
-  );
-  const [favorites, setFavorites] = useState(savedJoke);
+type Props = {
+  favorites: Array<JokeFromServer>;
+  setFavorites: (f: []) => void;
+};
+
+export const Favorites: React.FC<Props> = ({ favorites, setFavorites }) => {
   const favoritesList = favorites.map(({ value, id }) => (
     <Joke key={id}>{value}</Joke>
   ));
