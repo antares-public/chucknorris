@@ -1,26 +1,36 @@
 import { Button } from "antd";
-import styled from "styled-components";
-import React, { useEffect } from "react";
-import { Container, CustomRow } from "./home";
+import React from "react";
+import { Container, CustomRow, Joke } from "./home";
 import { JokeFromServer } from "../interfaces";
+import { HeartFilled } from "@ant-design/icons";
+import styled from "styled-components";
 
 type Props = {
   favorites: Array<JokeFromServer>;
-  setFavorites: (f: []) => void;
+  setFavorites: (f: any) => void;
 };
 
 export const Favorites: React.FC<Props> = ({ favorites, setFavorites }) => {
-  const favoritesList = favorites.map(({ value, id }) => (
-    <Joke key={id}>{value}</Joke>
-  ));
+  const favoritesList = favorites.map(({ value, id }) => {
+    const handleDislike = async () => {
+      setFavorites((prevState: any) =>
+        prevState.filter((f: any) => f.id !== id)
+      );
+    };
+    return (
+      <Joke key={id}>
+        <h3 style={{ width: 500 }}>{value}</h3>
+        <HeartFilled
+          onClick={handleDislike}
+          style={{ fontSize: "30px", color: "#08c" }}
+        />
+      </Joke>
+    );
+  });
 
   const handleClear = async () => {
     setFavorites([]);
   };
-
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
 
   return (
     <CustomRow justify="center">
@@ -29,13 +39,16 @@ export const Favorites: React.FC<Props> = ({ favorites, setFavorites }) => {
         <Button type="primary" size="large" onClick={handleClear}>
           Clear History
         </Button>
-        {favorites.length ? favoritesList : <Joke>Not found</Joke>}
+        <ScrollControl>
+          {favorites.length ? favoritesList : <Joke>Not found</Joke>}
+        </ScrollControl>
       </Container>
     </CustomRow>
   );
 };
 
-const Joke = styled.h3`
-  width: 500px;
-  margin-top: 10px;
+export const ScrollControl = styled.div`
+  margin-top: 20px;
+  overflow: auto;
+  height: 500px;
 `;

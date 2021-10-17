@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useHistory, useLocation } from "react-router-dom";
 import { CheckCircleOutlined, LoginOutlined } from "@ant-design/icons";
@@ -15,6 +15,10 @@ export const Jokes = () => {
   let location = useLocation();
   let history = useHistory();
   const { TabPane } = Tabs;
+
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
 
   return (
     <Container>
@@ -52,5 +56,5 @@ export const Jokes = () => {
 };
 
 const Wrapper = styled(Tabs)`
-  max-height: 100vh;
+  height: 100vh;
 `;

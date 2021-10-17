@@ -34,6 +34,9 @@ export const Home: React.FC<Props> = ({ favorites, setFavorites }) => {
   );
 
   const handleLike = async () => {
+    if (favorites.length > 10) {
+      favorites.shift();
+    }
     setFavorites((prevState: any) => [...prevState, joke]);
   };
 
@@ -75,7 +78,10 @@ export const Home: React.FC<Props> = ({ favorites, setFavorites }) => {
                 style={{ fontSize: "30px", color: "#08c" }}
               />
             ) : (
-              <HeartFilled onClick={handleDislike} style={{ fontSize: "30px", color: "#08c" }} />
+              <HeartFilled
+                onClick={handleDislike}
+                style={{ fontSize: "30px", color: "#08c" }}
+              />
             )}
           </Joke>
         )}
@@ -85,7 +91,7 @@ export const Home: React.FC<Props> = ({ favorites, setFavorites }) => {
 };
 
 export const CustomRow = styled(Row)`
-  min-height: 100vh;
+  max-height: 100vh;
 `;
 
 export const Container = styled.div`
@@ -97,8 +103,8 @@ const CustomButton = styled(Button)`
   margin-right: 10px;
 `;
 
-const Joke = styled.div`
-  width: 6а00px;
+export const Joke = styled.div`
+  width: 600px;
   margin-top: 10px;
   display: flex;
   align-items: center;
