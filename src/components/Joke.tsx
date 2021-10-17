@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useHistory, useLocation } from "react-router-dom";
 import { CheckCircleOutlined, LoginOutlined } from "@ant-design/icons";
 import { Favorites } from "./Favorites";
-import { Home } from "./Home";
+import { Container, Home } from "./Home";
 import { Tabs } from "antd";
 
 export const Joke = () => {
@@ -12,35 +12,37 @@ export const Joke = () => {
   const { TabPane } = Tabs;
 
   return (
-    <Wrapper
-      activeKey={location.pathname}
-      onChange={(key: any) => {
-        history.push(`${key}`);
-      }}
-    >
-      <TabPane
-        tab={
-          <span>
-            <LoginOutlined />
-            Login
-          </span>
-        }
-        key="/home"
+    <Container>
+      <Wrapper
+        activeKey={location.pathname}
+        onChange={(key: any) => {
+          history.push(`${key}`);
+        }}
       >
-        <Home />
-      </TabPane>
-      <TabPane
-        tab={
-          <span>
-            <CheckCircleOutlined />
-            Register
-          </span>
-        }
-        key="/favorite"
-      >
-        <Favorites />
-      </TabPane>
-    </Wrapper>
+        <TabPane
+          tab={
+            <span>
+              <LoginOutlined />
+              List Joke
+            </span>
+          }
+          key="/home"
+        >
+          <Home />
+        </TabPane>
+        <TabPane
+          tab={
+            <span>
+              <CheckCircleOutlined />
+              Favorites
+            </span>
+          }
+          key="/favorites"
+        >
+          <Favorites />
+        </TabPane>
+      </Wrapper>
+    </Container>
   );
 };
 
