@@ -1,21 +1,18 @@
-import { Button } from "antd";
 import React from "react";
 import { Container, CustomRow, Joke } from "./home";
-import { JokeFromServer } from "../interfaces";
-import { HeartFilled } from "@ant-design/icons";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { clearFavorites, removeFromFavorites } from "../redux/jokes/actions";
+import { Button } from "antd";
+import { selectFavorites } from "../redux/jokes/selectors";
+import { HeartFilled } from "@ant-design/icons";
 
-type Props = {
-  favorites: Array<JokeFromServer>;
-  setFavorites: (f: any) => void;
-};
-
-export const Favorites: React.FC<Props> = ({ favorites, setFavorites }) => {
+export const Favorites: React.FC = () => {
+  const dispatch = useDispatch();
+  const favorites = useSelector(selectFavorites);
   const favoritesList = favorites.map(({ value, id }) => {
     const handleDislike = async () => {
-      setFavorites((prevState: any) =>
-        prevState.filter((f: any) => f.id !== id)
-      );
+      dispatch(removeFromFavorites(id));
     };
     return (
       <Joke key={id}>
@@ -29,7 +26,7 @@ export const Favorites: React.FC<Props> = ({ favorites, setFavorites }) => {
   });
 
   const handleClear = async () => {
-    setFavorites([]);
+    dispatch(clearFavorites());
   };
 
   return (

@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useHistory, useLocation } from "react-router-dom";
 import { CheckCircleOutlined, LoginOutlined } from "@ant-design/icons";
 import { Favorites } from "../pages/favorites";
 import { Container, Home } from "../pages/home";
 import { Tabs } from "antd";
-import { JokeFromServer } from "../interfaces";
+import { JokeList } from "../interfaces";
+import { fetchToFavorites } from "../redux/jokes/actions";
+import { useDispatch } from "react-redux";
 
 export const Jokes = () => {
-  const savedJokes: Array<JokeFromServer> | [] = JSON.parse(
+  const savedJokes: JokeList = JSON.parse(
     localStorage.getItem("favorites") || "[]"
   );
-  const [favorites, setFavorites] = useState(savedJokes);
+  const dispatch = useDispatch();
   let location = useLocation();
   let history = useHistory();
   const { TabPane } = Tabs;
 
   useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
+    dispatch(fetchToFavorites(savedJokes))
+  }, [dispatch, savedJokes])
 
   return (
     <Container>
@@ -37,7 +39,7 @@ export const Jokes = () => {
           }
           key="/home"
         >
-          <Home favorites={favorites} setFavorites={setFavorites} />
+          <Home />
         </TabPane>
         <TabPane
           tab={
@@ -48,7 +50,7 @@ export const Jokes = () => {
           }
           key="/favorites"
         >
-          <Favorites favorites={favorites} setFavorites={setFavorites} />
+          <Favorites />
         </TabPane>
       </Wrapper>
     </Container>

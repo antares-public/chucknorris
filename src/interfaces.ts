@@ -6,4 +6,6 @@ export interface JokeFromServer {
   updated_at: string;
   url: string;
   value: string;
-};
+}
+
+export type JokeList = Array<JokeFromServer> | [];

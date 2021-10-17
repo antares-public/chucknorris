@@ -5,17 +5,24 @@ import React, { useCallback, useEffect, useState } from "react";
 import { JokeFromServer } from "../interfaces";
 import { apiFetchJoke } from "../api/joke";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
+import { selectFavorites } from "../redux/jokes/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToFavorites,
+  removeFromFavorites,
+} from "../redux/jokes/actions";
 
-type Props = {
-  favorites: Array<JokeFromServer>;
-  setFavorites: (f: any) => void;
-};
-
-export const Home: React.FC<Props> = ({ favorites, setFavorites }) => {
+export const Home: React.FC = () => {
+  const dispatch = useDispatch();
+  const favorites = useSelector(selectFavorites);
   const [joke, setJoke] = useState<JokeFromServer>();
   const [stop, setStop] = useState(false);
 
   const checkJoke = favorites.find((f) => f.id === joke?.id);
+
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
 
   const handleLinks = async () => {
     const res = await apiFetchJoke();
@@ -37,13 +44,13 @@ export const Home: React.FC<Props> = ({ favorites, setFavorites }) => {
     if (favorites.length > 10) {
       favorites.shift();
     }
-    setFavorites((prevState: any) => [...prevState, joke]);
+    if (joke) {
+      dispatch(addToFavorites(joke));
+    }
   };
 
   const handleDislike = async () => {
-    setFavorites((prevState: any) =>
-      prevState.filter((f: any) => f.id !== joke?.id)
-    );
+    if (joke) dispatch(removeFromFavorites(joke.id));
   };
 
   useEffect(() => {
