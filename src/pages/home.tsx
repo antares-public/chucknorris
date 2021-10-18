@@ -44,7 +44,12 @@ export const Home: React.FC = () => {
   return (
     <CustomRow justify="center">
       <div>
-        <CustomButton type="primary" size="large" onClick={handleLinks}>
+        <CustomButton
+          disabled={stop}
+          type="primary"
+          size="large"
+          onClick={handleLinks}
+        >
           Joke
         </CustomButton>
         <CustomButton
