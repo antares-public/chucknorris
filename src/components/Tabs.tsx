@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useHistory, useLocation } from "react-router-dom";
 import { HeartOutlined, SmileOutlined } from "@ant-design/icons";
 import { Favorites } from "../pages/favorites";
-import { Container, Home } from "../pages/home";
+import { Home } from "../pages/home";
 import { Tabs } from "antd";
 import { JokeList } from "../interfaces";
 import { fetchToFavorites } from "../redux/jokes/actions";
@@ -23,37 +23,35 @@ export const Jokes = () => {
   }, [dispatch, savedJokes]);
 
   return (
-    <Container>
-      <Wrapper
-        activeKey={location.pathname}
-        onChange={(key) => {
-          history.push(`${key}`);
-        }}
+    <Wrapper
+      activeKey={location.pathname}
+      onChange={(key) => {
+        history.push(`${key}`);
+      }}
+    >
+      <TabPane
+        tab={
+          <span>
+            <SmileOutlined />
+            Joke
+          </span>
+        }
+        key="/home"
       >
-        <TabPane
-          tab={
-            <span>
-              <SmileOutlined />
-              Joke
-            </span>
-          }
-          key="/home"
-        >
-          <Home />
-        </TabPane>
-        <TabPane
-          tab={
-            <span>
-              <HeartOutlined />
-              Favorites
-            </span>
-          }
-          key="/favorites"
-        >
-          <Favorites />
-        </TabPane>
-      </Wrapper>
-    </Container>
+        <Home />
+      </TabPane>
+      <TabPane
+        tab={
+          <span>
+            <HeartOutlined />
+            Favorites
+          </span>
+        }
+        key="/favorites"
+      >
+        <Favorites />
+      </TabPane>
+    </Wrapper>
   );
 };
 

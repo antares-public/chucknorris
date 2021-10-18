@@ -11,7 +11,7 @@ type Props = {
 
 export const LikeChunk: React.FC<Props> = ({ id, value, dislike }) => (
   <Joke>
-    <h3 style={{ width: 500 }}>{value}</h3>
+    <h3 style={{ maxWidth: 500 }}>{value}</h3>
     <HeartFilled
       onClick={dislike.bind(null, id)}
       style={{ fontSize: "30px", color: "#08c" }}

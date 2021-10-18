@@ -25,7 +25,7 @@ export const Chunk: React.FC<{ joke: JokeFromServer }> = ({ joke }) => {
 
   return (
     <Joke>
-      <h3 style={{ width: 500 }}>{joke.value}</h3>
+      <h3 style={{ maxWidth: 500 }}>{joke.value}</h3>
       {!checkJoke ? (
         <HeartOutlined
           onClick={handleLike}

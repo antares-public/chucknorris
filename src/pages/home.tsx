@@ -43,33 +43,28 @@ export const Home: React.FC = () => {
 
   return (
     <CustomRow justify="center">
-      <Container>
-        <div>
-          <CustomButton type="primary" size="large" onClick={handleLinks}>
-            Joke
-          </CustomButton>
-          <CustomButton
-            type="primary"
-            size="large"
-            onClick={() => setStop(!stop)}
-          >
-            Joke 3s
-          </CustomButton>
-          <CustomButton type="primary" size="large" onClick={handleClear}>
-            Clear
-          </CustomButton>
-        </div>
-        {joke ? <Chunk joke={joke} /> : <Joke />}
-      </Container>
+      <div>
+        <CustomButton type="primary" size="large" onClick={handleLinks}>
+          Joke
+        </CustomButton>
+        <CustomButton
+          type="primary"
+          size="large"
+          onClick={() => setStop(!stop)}
+        >
+          Joke 3s
+        </CustomButton>
+        <CustomButton type="primary" size="large" onClick={handleClear}>
+          Clear
+        </CustomButton>
+      </div>
+      {joke ? <Chunk joke={joke} /> : <Joke />}
     </CustomRow>
   );
 };
 
 export const CustomRow = styled(Row)`
   max-height: 100vh;
-`;
-
-export const Container = styled.div`
   display: flex;
   flex-direction: column;
 `;
@@ -79,9 +74,10 @@ const CustomButton = styled(Button)`
 `;
 
 export const Joke = styled.div`
-  width: 600px;
+  max-width: 600px;
   margin-top: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  overflow-wrap: break-word;
 `;

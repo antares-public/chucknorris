@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, CustomRow, Joke } from "./home";
+import { CustomRow, Joke } from "./home";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { clearFavorites, removeFromFavorites } from "../redux/jokes/actions";
@@ -26,15 +26,13 @@ export const Favorites: React.FC = () => {
 
   return (
     <CustomRow justify="center">
-      <Container>
-        <h1>Favorites</h1>
-        <Button type="primary" size="large" onClick={handleClear}>
-          Clear History
-        </Button>
-        <ScrollControl>
-          {favorites.length ? favoritesList : <Joke>Not found</Joke>}
-        </ScrollControl>
-      </Container>
+      <h1>Favorites</h1>
+      <Button type="primary" size="large" onClick={handleClear}>
+        Clear History
+      </Button>
+      <ScrollControl>
+        {favorites.length ? favoritesList : <Joke>Not found</Joke>}
+      </ScrollControl>
     </CustomRow>
   );
 };

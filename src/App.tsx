@@ -1,8 +1,13 @@
 import React from "react";
+import styled from "styled-components";
 import { useRoutes } from "./routes";
-import { Container } from "./pages/home";
 
 export const App: React.FC = () => {
   const routes = useRoutes();
   return <Container>{routes}</Container>;
 };
+
+const Container = styled.div`
+  max-width: 600px;
+  margin: auto;
+`;
